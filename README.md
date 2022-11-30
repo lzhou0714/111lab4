@@ -1,24 +1,33 @@
 # Hey! I'm Filing Here
-./ext2-create creates cs111-base.img which is supposed to be the file system image (1Mb)
-dumpe2fs cs111-base.img
-1kB blocks
-since block 0 is reserved for boot our bit map starts at 1
-ftru=
-One line description of this code.
 
-tutorial: did super block
-need to do :
-    make inode table, bitmap..... many more
+This program creates a mini EXT2 file system which is mounted in the mnt folder
+It has a root directory, a lost+found directory, a hello-world file, and a symlink
+hello that points to hello-world.
 ## Building
 
-Explain briefly how to build your program.
+to build and compile use
+make
 
 ## Running
 
-Show how to compile, mount, and example output of `ls -ain` your mounted
-filesystem.
+To run and mount
+
+./ext2-create # run executable to create cs111-base.img
+mkdir mnt
+sudo mount -o loop cs111-base.img mnt # mount your filesystem, loop lets you use a file
+
+
+output of `ls -ain` 
+total 7
+     2 drwxr-xr-x 3    0    0 1024 Nov 29 15:12 .
+942298 drwxr-xr-x 5 1000 1000 4096 Nov 29 15:12 ..
+    13 lrw-r--r-- 1 1000 1000   11 Nov 29 15:12 hello -> hello-world
+    12 -rw-r--r-- 1 1000 1000   12 Nov 29 15:12 hello-world
+    11 drwxr-xr-x 2    0    0 1024 Nov 29 15:12 lost+found
 
 ## Cleaning up
 
-Explain briefly how to unmount the filesystem, remove the mount directory, and
-clean up all binary files.
+To unmount the filesystem, remove the mount directory, and clean up all binary files
+
+sudo umount mnt # unmount the filesystem
+rmdir mnt # delete the directory used for mounting
