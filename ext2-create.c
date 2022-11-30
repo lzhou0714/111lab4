@@ -510,7 +510,7 @@ void write_hello_world_file_block(int fd) {
 		errno_exit("lseek");
 	}
 
-	const char str[15] = "hello-world\n";
+	const char str[15] = "Hello world\n";
 
 	ssize_t size = sizeof(str);
 	if (write(fd, &str, size) != size) {
