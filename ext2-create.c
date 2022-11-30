@@ -427,11 +427,10 @@ void write_inode_table(int fd) {
 	hello_symlink_inode.i_dtime = 0;
 	hello_symlink_inode.i_gid = 1000;
 	hello_symlink_inode.i_links_count = 1;
-	hello_symlink_inode.i_blocks = 0; //data not stored in blocks, stored in memory
+	hello_symlink_inode.i_blocks = 0; //data not stored in blocks in memory, stored in inode
 	const char str[20] = "hello-world";
 	memcpy(&hello_symlink_inode.i_block,str ,13);
 	write_inode(fd, HELLO_INO, &hello_symlink_inode);
-	// printf("%s",&hello_symlink_inode.i_block);
 }
 
 void write_root_dir_block(int fd) {
@@ -505,7 +504,18 @@ void write_lost_and_found_dir_block(int fd) {
 }
 
 void write_hello_world_file_block(int fd) {
-	/* This is all you */
+	off_t off = BLOCK_OFFSET(HELLO_WORLD_FILE_BLOCKNO);
+	off = lseek(fd, off, SEEK_SET);
+	if (off == -1) {
+		errno_exit("lseek");
+	}
+
+	const char str[12] = "hello-world";
+
+	ssize_t size = sizeof(str);
+	if (write(fd, &str, size) != size) {
+		errno_exit("write");
+	}
 }
 
 //do not change anything in main
