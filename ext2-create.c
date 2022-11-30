@@ -81,6 +81,7 @@ typedef int32_t i32;
 #define	EXT2_TIND_BLOCK  (EXT2_DIND_BLOCK + 1)
 #define	EXT2_N_BLOCKS    (EXT2_TIND_BLOCK + 1)
 #define EXT2_ERRORS_CONTINUE 1
+#define EXT2_VALID_FS 1
 #define EXT2_NAME_LEN 255
 
 struct ext2_superblock {
@@ -224,7 +225,7 @@ void write_superblock(int fd) {
 	superblock.s_mnt_count         = 0; /* Number of times mounted so far */
 	superblock.s_max_mnt_count     = MAX_MT_COUNT; /* Make this unlimited (-1) */
 	superblock.s_magic             = EXT2_SUPER_MAGIC; /* ext2 Signature */
-	superblock.s_state             = 0; /* File system is clean */
+	superblock.s_state             = EXT2_VALID_FS; /* File system is clean */
 	superblock.s_errors            = EXT2_ERRORS_CONTINUE; /* Ignore the error (continue on) */
 	superblock.s_minor_rev_level   = 0; /* Leave this as 0 */
 	superblock.s_lastcheck         = current_time; /* Last check time */
